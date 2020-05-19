@@ -3,14 +3,14 @@
 The provided FVDM function calculates Filtered Vowel Distortion Measures. 
 The speech used in our analysis were recordings of the Grandfather Passage (recorded at 44.1kHz). We manually segmented vowels from these speech samples, extracted FVDM, and aggregated them for each participant with the following statistics: min, median, max, range, std, mean. In our samples we found that this method effectively removed trends from read speech and quantified these trends/stability of the remaining vowels. These FVDM, coupled with existing features related to disordered speech, were able to classify premanifest vs manifest Huntington Disease with 80% accuracy (up from 63% using just the previously existing features).   
 
-Returns:  
+## Returns
   FVDM-VS: the stability of the stationary vowel
           (if the filtered vowel is not stationary, will return None)  
   FVDM-ACV: the variance of the additive component, 
           separated using empirical mode decomposition (EMD)  
   FVDM-MCV: the variance of the multiplicative component, 
           separated using a windowing approach  
-Arguments:  
+## Arguments
   audio_path: path to the wav file which contains the vowel audio  
   vowel_timing: tuple in the form of (start, end), which specifies
             the start and end times (in ms) of the vowel in the audio file. 
