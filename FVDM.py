@@ -78,6 +78,11 @@ def FVDM(audio_path,vowel_timing=None,mcv_window_size=25,mcv_window_shift=10,
     if kpss_after < pvalue_cutoff: 
         return None, acv, mcv 
 
-    vs = hurst_rs(detrended) 
+    # there is some randomness in calculating the HE 
+    # calculate it 10 times and then take the median value
+    vs_vals = [] 
+    for i in range(10): 
+         vs_vals.append(hurst_rs(detrended))
+    vs = np.median(vs_vals) 
 
     return vs, acv, mcv
