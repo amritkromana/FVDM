@@ -14,7 +14,7 @@ The speech used in our analysis were recordings of the Grandfather Passage (samp
 	and this value will be the standard deviation of this trend.  
   std_of_mult_trend: The multiplicative trend is separated using a windowing
 	approach, and this value is the standard deviation of that trend. 
-## Arguments
+## Input Parameters
   audio_path: Path to the wav file which contains the vowel audio  
   vowel_timing: Tuple in the form of (start, end), which specifies
             the start and end times (in ms) of the vowel in the audio file. 
