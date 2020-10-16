@@ -45,16 +45,17 @@ def mc_detrend(audio,window_len=25,window_shift=10):
         if window_end > len(audio): 
             break 
         
-    # get variance of the multiplicative component 
-    mcv = np.var(mc)
+    # get standard deviation of the multiplicative component 
+    std_of_mult_trend = np.std(mc)
     
-    return detrended, mc, mcv
+    return detrended, mc, std_of_mult_trend
 
 
 def ac_detrend(s,sample_rate=44100): 
     
     # s should be an array for PyEMD 
-    # setting it to a range of [-1,1] greatly speeds up EMD 
+    # normalizing amplitude here so that amplitude doesn't factor 
+    # in to the std of the additive trend 
     s = np.array(normalize_amplitude(s))
     
     # set up index and adjust lengths so they align 
@@ -68,15 +69,18 @@ def ac_detrend(s,sample_rate=44100):
     emd = EMD()
     imfs = emd(s,t)
 
-    # sum first six IMFs as the detrended signal, the rest as additive component 
-    detrended = np.sum(imfs[:6,:],axis=0)
-    ac = np.sum(imfs[6:],axis=0)
+    # first IMF is the detrended noise-like component 
+    # IMFs 1 to 4 are the periodic component - currently not extracting
+    # features from this component 
+    # IMFs 5 and higher are the additive trend 
+    detrended = imfs[0]
+    pc = np.sum(imfs[1:5],axis=0)
+    ac = np.sum(imfs[5:],axis=0)
 
-    # get variance of additice component
-    # normalize it to [-1,1] so as to not take into consideration audio volume 
-    acv = np.var(normalize_amplitude(list(ac)))
+    # get standard deviation of additice component
+    std_of_add_trend = np.std(ac)
     
-    return detrended, ac, acv 
+    return detrended, pc, ac, std_of_add_trend
 
 
  
